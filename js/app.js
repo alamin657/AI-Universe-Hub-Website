@@ -25,9 +25,11 @@ const displayDataLoad = (tools) => {
                     <h5 class="card-title">${tool.name}</h5>
                    
                     <div class="d-flex justify-content-end">
-                    <i class="fas fa-arrow-right"></i>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-primary"> <i onclick="fetchModalclick()" class="fas fa-arrow-right"></i></button>
+                   
                     </div>
                     <div class="d-flex" >
+                    <i class="fa-solid fa-calendar-days gap-4 p-2"></i>
                     <p>${tool.published_in}</p>
                     </div>
                     </div>
@@ -73,7 +75,6 @@ document.getElementById('btn-see-more').addEventListener('click',function(){
                     <div class="d-flex" >
                     <i class="fa-solid fa-calendar-days gap-4 p-2"></i>
                     <p>${tool.published_in}</p>
-                    
                     </div>
                     </div>
                   </div>`
@@ -94,24 +95,40 @@ const fetchModalclick = () => {
 const displayfecthModal = data => {
     console.log(data)
     document.getElementById('modal-body').innerHTML = `
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col">
-      <div class="card h-100">
-        <div class="card-body">
-          <p class="card-text">${data.description}</p>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div>
+        <p class="card-text">${data.description}</p>
+        <div class="d-flex gap-2">
+        <p>${data.pricing[0].price} ${data.pricing[0].plan}</p>
+        <p>${data.pricing[1].price} ${data.pricing[1].plan}</p>
+        <p>${data.pricing[2].price} ${data.pricing[2].plan}</p>
         </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100">
+        <div class="d-flex gap-3">
+        <div>
+        <h2>Features</h2>
+        <ul>
+        <li>${data.features.feature_name}</li>
+        <li>${data.features.feature_name}</li>
+        <li>${data.features.feature_name}</li>
+        </ul>
+        </div>
+        <div>
+        <h2>Integrations</h2>
+        <ul>
+        <li>${data.integrations[0]}</li>
+        <li>${data.integrations[1]}</li>
+        <li>${data.integrations[2]}</li>
+        </ul>
+        </div>
+        </div>
+        </div>
+        <div>
         <img src="${data.image_link[0]}" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a short card.</p>
+        <h4 class="mt-2 text-center">${data.input_output_examples[0].input}</h4>
+        <p class="mt-2 text-center">${data.input_output_examples[0].output}</p>
         </div>
-      </div>
     </div>
-  </div>
+    
     `
     
 }
