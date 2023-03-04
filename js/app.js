@@ -1,4 +1,6 @@
 const dataLoad = () => {
+    const loaderSection = document.getElementById('loader');
+    loaderSection.classList.remove('d-none')
     fetch(`https://openapi.programming-hero.com/api/ai/tools`)
     .then(res => res.json())
     .then(data =>displayDataLoad(data.data.tools.slice(0,6)))
@@ -38,10 +40,14 @@ const displayDataLoad = (tools) => {
         `
         cardContainer.appendChild(toolDiv);
     })
+
+    const loaderSection = document.getElementById('loader');
+    loaderSection.classList.add('d-none')
 }
 dataLoad();
-
 document.getElementById('btn-see-more').addEventListener('click',function(){
+    const loaderSection = document.getElementById('loader');
+    loaderSection.classList.remove('d-none')
     const seeMoredataLoad = () => {
         fetch(`https://openapi.programming-hero.com/api/ai/tools`)
         .then(res => res.json())
@@ -81,6 +87,8 @@ document.getElementById('btn-see-more').addEventListener('click',function(){
                   seeMoreContainer.appendChild(seeMoreDiv);
 
     })
+    const loaderSection = document.getElementById('loader');
+    loaderSection.classList.add('d-none') 
 }
 seeMoredataLoad()
 
@@ -144,8 +152,6 @@ const displayfecthModal = data => {
     
 }
 fetchModalclick()
-// features section
-
 
 
 
