@@ -1,16 +1,18 @@
+let fetchData = [];
 const dataLoad = () => {
     const loaderSection = document.getElementById('loader');
     loaderSection.classList.remove('d-none')
     fetch(`https://openapi.programming-hero.com/api/ai/tools`)
     .then(res => res.json())
-    .then(data =>displayDataLoad(data.data.tools.slice(0,6)))
+    .then(data =>{
+        fetchData = data.data.tools;
+        displayDataLoad(data.data.tools.slice(0,6))
+    });
 }
-
 const displayDataLoad = (tools) => {
-    // console.log(tools)
-    const cardContainer = document.getElementById('card-container')
+    const cardContainer = document.getElementById('card-container');
+    cardContainer.innerHTML = '';
     tools.forEach(tool => {
-        // console.log(tool)
         const toolDiv = document.createElement('div')
         toolDiv.classList.add('col')
         toolDiv.innerHTML = `
@@ -51,14 +53,14 @@ document.getElementById('btn-see-more').addEventListener('click',function(){
     const seeMoredataLoad = () => {
         fetch(`https://openapi.programming-hero.com/api/ai/tools`)
         .then(res => res.json())
-        .then(data => displayseeMoredataLoad(data.data.tools))
+        .then(data => {
+            displayseeMoredataLoad(data.data.tools) 
+        })
    }
    const displayseeMoredataLoad = tools => {
-    // console.log(tools);
     const seeMoreContainer = document.getElementById('card-container')
     seeMoreContainer.innerText = '';
     tools.forEach(tool => {
-        // console.log(tool);
     const seeMoreDiv = document.createElement('div')
     seeMoreDiv.classList.add('col')
     seeMoreDiv.innerHTML = `
@@ -91,9 +93,10 @@ document.getElementById('btn-see-more').addEventListener('click',function(){
     loaderSection.classList.add('d-none') 
 }
 seeMoredataLoad()
+});
 
-})
-// modal click
+
+// modal section
 const fetchModalclick = (id) => {
     fetch(`https://openapi.programming-hero.com/api/ai/tool/${id}`)
     .then(res => res.json())
@@ -140,18 +143,20 @@ const displayfecthModal = data => {
     
     `
     let featuresList = Object.values(data.features)
-    // console.log(featuresList);
     featuresList.forEach(features=>{
         const listContainer = document.getElementById('1'+ data.id)
         const listItem = document.createElement('li');
         listItem.innerText = features.feature_name;
-        // console.log(listItem);
         listContainer.appendChild(listItem);
        
     })
     
 }
 fetchModalclick()
+document.getElementById('sort-by-date').addEventListener('click',function(){
+  const dataFormat = fetchData.sort((a, b) => new Date(a.published_in) - new Date(b.published_in));
+  displayDataLoad(dataFormat);
+});
 
 
 
