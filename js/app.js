@@ -16,7 +16,7 @@ const displayDataLoad = (tools) => {
         const toolDiv = document.createElement('div')
         toolDiv.classList.add('col')
         toolDiv.innerHTML = `
-                 <div class="card">
+                 <div class="card h-100">
                     <img class=p-4 src="${tool.image}" class="card-img-top" alt="...">
                     <div class="card-body">
                     <h2>Features</h2>
@@ -64,7 +64,7 @@ document.getElementById('btn-see-more').addEventListener('click', function () {
             const seeMoreDiv = document.createElement('div')
             seeMoreDiv.classList.add('col')
             seeMoreDiv.innerHTML = `
-        <div class="card ">
+        <div class="card h-100 ">
                     <img  class=p-4 src="${tool.image}" w-100" class="card-img-top" alt="...">
                     <div class="card-body">
                     <h2>Features</h2>
@@ -115,7 +115,7 @@ const fetchModalclick = async(id) => {
 const displayfecthModal = data => {
     document.getElementById('modal-body').innerHTML = "";
     document.getElementById('modal-body').innerHTML = `
-    <div class="row row-cols-1 row-cols-md-2 ">
+    <div class="row row-cols-1 row-cols-md-2">
         <div class="border border-danger bg-warning-subtle">
         <p class="card-text">${data.description}</p>
         <div class="d-flex gap-2 ">
@@ -141,11 +141,11 @@ const displayfecthModal = data => {
         </div>
         </div>
         <div class="position-relative mt-2">
-        <div id="2${data.id}" class="position-absolute top-0 end-0 bg-danger">${data.accuracy.score * 100 ? data.accuracy.score * 100 :''}% accuracy</div>
-        <img src="${data.image_link[0]}" class="card-img-top p-2" alt="...">
+        <div id="2${data.id}" class="position-absolute top-0 end-0 bg-danger rounded">${data.accuracy.score * 100 ? data.accuracy.score * 100 :''}% accuracy</div>
+        <img src="${data.image_link[0]}" class="card-img-top" alt="...">
          
         <h4 class="mt-2 text-center">${data.input_output_examples ? data.input_output_examples[0].input : "Can you give any example?"}</h4>
-        <p class="mt-2 text-center">${data.input_output_examples ? data.input_output_examples[0].output : "No! Not Yet! Take a break!!!"}</p>
+        <p class="mt-2 text-center">${data.input_output_examples ? data.input_output_examples[1].output : "No! Not Yet! Take a break!!!"}</p>
         </div>
     </div>
     
