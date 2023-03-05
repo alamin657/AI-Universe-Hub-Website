@@ -3,11 +3,11 @@ const dataLoad = () => {
     const loaderSection = document.getElementById('loader');
     loaderSection.classList.remove('d-none')
     fetch(`https://openapi.programming-hero.com/api/ai/tools`)
-    .then(res => res.json())
-    .then(data =>{
-        fetchData = data.data.tools;
-        displayDataLoad(data.data.tools.slice(0,6))
-    });
+        .then(res => res.json())
+        .then(data => {
+            fetchData = data.data.tools;
+            displayDataLoad(data.data.tools.slice(0, 6))
+        });
 }
 const displayDataLoad = (tools) => {
     const cardContainer = document.getElementById('card-container');
@@ -29,12 +29,12 @@ const displayDataLoad = (tools) => {
                     <h5 class="card-title">${tool.name}</h5>
                    
                     <div class="d-flex justify-content-end">
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-primary"> <i onclick="fetchModalclick('${tool.id}')" class="fas fa-arrow-right"></i></button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-danger"> <i onclick="fetchModalclick('${tool.id}')" class="fas fa-arrow-right"></i></button>
                    
                     </div>
                     <div class="d-flex" >
                     <i class="fa-solid fa-calendar-days gap-4 p-2"></i>
-                    <p>${tool.published_in}</p>
+                    <p class="mt-1">${tool.published_in}</p>
                     </div>
                     </div>
                   </div>
@@ -47,23 +47,23 @@ const displayDataLoad = (tools) => {
     loaderSection.classList.add('d-none')
 }
 dataLoad();
-document.getElementById('btn-see-more').addEventListener('click',function(){
+document.getElementById('btn-see-more').addEventListener('click', function () {
     const loaderSection = document.getElementById('loader');
     loaderSection.classList.remove('d-none')
     const seeMoredataLoad = () => {
         fetch(`https://openapi.programming-hero.com/api/ai/tools`)
-        .then(res => res.json())
-        .then(data => {
-            displayseeMoredataLoad(data.data.tools) 
-        })
-   }
-   const displayseeMoredataLoad = tools => {
-    const seeMoreContainer = document.getElementById('card-container')
-    seeMoreContainer.innerText = '';
-    tools.forEach(tool => {
-    const seeMoreDiv = document.createElement('div')
-    seeMoreDiv.classList.add('col')
-    seeMoreDiv.innerHTML = `
+            .then(res => res.json())
+            .then(data => {
+                displayseeMoredataLoad(data.data.tools)
+            })
+    }
+    const displayseeMoredataLoad = tools => {
+        const seeMoreContainer = document.getElementById('card-container')
+        seeMoreContainer.innerText = '';
+        tools.forEach(tool => {
+            const seeMoreDiv = document.createElement('div')
+            seeMoreDiv.classList.add('col')
+            seeMoreDiv.innerHTML = `
         <div class="card ">
                     <img  class=p-4 src="${tool.image}" w-100" class="card-img-top" alt="...">
                     <div class="card-body">
@@ -82,38 +82,44 @@ document.getElementById('btn-see-more').addEventListener('click',function(){
                     </div>
                     <div class="d-flex" >
                     <i class="fa-solid fa-calendar-days gap-4 p-2"></i>
-                    <p>${tool.published_in}</p>
+                    <p class="mt-1">${tool.published_in}</p>
                     </div>
                     </div>
                   </div>`
-                  seeMoreContainer.appendChild(seeMoreDiv);
+            seeMoreContainer.appendChild(seeMoreDiv);
 
-    })
-    const loaderSection = document.getElementById('loader');
-    loaderSection.classList.add('d-none') 
-}
-seeMoredataLoad()
+        })
+        const loaderSection = document.getElementById('loader');
+        loaderSection.classList.add('d-none')
+    }
+    seeMoredataLoad()
 });
 
 
 // modal section
-const fetchModalclick = (id) => {
-    fetch(`https://openapi.programming-hero.com/api/ai/tool/${id}`)
-    .then(res => res.json())
-    .then(data => displayfecthModal(data.data))
+const fetchModalclick = async(id) => {
+    console.log(id)
+    try {
+        const url = `https://openapi.programming-hero.com/api/ai/tool/${id}`
+        const res = await fetch(url);
+        const data = await res.json();
+        displayfecthModal(data.data);
+    }
+    catch (error) {
+        console.log(error);
+    }
+
 }
 const displayfecthModal = data => {
-    console.log(data.id)
+    document.getElementById('modal-body').innerHTML = "";
     document.getElementById('modal-body').innerHTML = `
-    <div class="row row-cols-1 row-cols-md-2 g-4">
-        <div class="border border-danger">
+    <div class="row row-cols-1 row-cols-md-2 ">
+        <div class="border border-danger bg-warning-subtle">
         <p class="card-text">${data.description}</p>
         <div class="d-flex gap-2 ">
-        <p  class="shadow p-3 text-success ">${data.pricing[0].price}
-        ${data.pricing[0].plan}</p>
-        <p class="shadow p-3 text-danger-emphasis">${data.pricing[1].price} ${data.pricing[1].plan}</p>
-        <p class="shadow p-3 text-danger">${data.pricing[2].price} <br>
-        ${data.pricing[2].plan}</p>
+        <p class="shadow p-3 text-success ">${data.pricing? data.pricing[0].price : "Free of Cost"}${data.pricing? data.pricing[0].plan : "/Basic"}</p>
+        <p class="shadow p-3 text-danger-emphasis">${data.pricing? data.pricing[1].price : "Free Of Cost"}${data.pricing? data.pricing[1].plan : "/Pro"}</p>
+        <p class="shadow p-3 text-danger">${data.pricing? data.pricing[2].price : "Free of Cost "}${data.pricing? data.pricing[2].plan : "/Enterprise"}</p>
         </div>
         <div class="d-flex gap-3">
         <div>
@@ -123,40 +129,40 @@ const displayfecthModal = data => {
         </ul>
         </div>
         <div>
-        <h2>Integrations</h2>
+        <h2>Integrations</h2> 
         <ul>
-        <li>${data.integrations[0]}</li>
-        <li>${data.integrations[1] ? data.integrations[1] : "No data found" }</li>
-        <li>${data.integrations[2] ? data.integrations[2] : "No data found"}</li>
+        <li>${data.integrations ? data.integrations[0] : "data not found"}</li>
+        <li>${data.integrations ? data.integrations[1] : "data not found"}</li>
+        <li>${data.integrations? data.integrations[2] : "data not found"}</li>
         </ul>
         </div>
         </div>
         </div>
-        <div>
-        <img src="${data.image_link[0]}" class="card-img-top" alt="...">
-        <button  class="badge bg-danger mx-auto p-2 position-absolute">${data.accuracy.score*100 ? data.accuracy.score*100 : ''} % accuracy</button>
+        <div class="position-relative">
+        <div id="2${data.id}" class="position-absolute top-0 end-0 bg-danger">${data.accuracy.score * 100 ? data.accuracy.score * 100 :''}% accuracy</div>
+        <img src="${data.image_link[0]}" class="card-img-top p-2" alt="...">
          
-        <h4 class="mt-2 text-center">${data.input_output_examples[0].input}</h4>
-        <p class="mt-2 text-center">${data.input_output_examples[0].output}</p>
+        <h4 class="mt-2 text-center">${data.input_output_examples ? data.input_output_examples[0].input : "Can you give any example?"}</h4>
+        <p class="mt-2 text-center">${data.input_output_examples ? data.input_output_examples[0].output : "No! Not Yet! Take a break!!!"}</p>
         </div>
     </div>
     
     `
+    if(data.accuracy.score=== null){
+        document.getElementById('2'+data.id).classList.add('d-none');
+    }
     let featuresList = Object.values(data.features)
-    featuresList.forEach(features=>{
-        const listContainer = document.getElementById('1'+ data.id)
+    featuresList.forEach(features => {
+        const listContainer = document.getElementById('1' + data.id)
         const listItem = document.createElement('li');
         listItem.innerText = features.feature_name;
         listContainer.appendChild(listItem);
-       
+
     })
-    
+
 }
-fetchModalclick()
-document.getElementById('sort-by-date').addEventListener('click',function(){
-  const dataFormat = fetchData.sort((a, b) => new Date(a.published_in) - new Date(b.published_in));
-  displayDataLoad(dataFormat);
+
+document.getElementById('sort-by-date').addEventListener('click', function () {
+    const dataFormat = fetchData.sort((a, b) => new Date(a.published_in) - new Date(b.published_in));
+    displayDataLoad(dataFormat);
 });
-
-
-
