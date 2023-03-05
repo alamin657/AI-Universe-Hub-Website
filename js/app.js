@@ -93,6 +93,8 @@ document.getElementById('btn-see-more').addEventListener('click', function () {
         loaderSection.classList.add('d-none')
     }
     seeMoredataLoad()
+    const seeMoreButton = document.getElementById('btn-see-more');
+    seeMoreButton.classList.add('d-none'); 
 });
 
 
@@ -117,9 +119,9 @@ const displayfecthModal = data => {
         <div class="border border-danger bg-warning-subtle">
         <p class="card-text">${data.description}</p>
         <div class="d-flex gap-2 ">
-        <p class="shadow p-3 text-success ">${data.pricing? data.pricing[0].price : "Free of Cost"}${data.pricing? data.pricing[0].plan : "/Basic"}</p>
-        <p class="shadow p-3 text-danger-emphasis">${data.pricing? data.pricing[1].price : "Free Of Cost"}${data.pricing? data.pricing[1].plan : "/Pro"}</p>
-        <p class="shadow p-3 text-danger">${data.pricing? data.pricing[2].price : "Free of Cost "}${data.pricing? data.pricing[2].plan : "/Enterprise"}</p>
+        <p class="shadow p-1 text-success ">${data.pricing? data.pricing[0].price : "Free of Cost"} <br> ${data.pricing? data.pricing[0].plan : "/Basic"}</p>
+        <p class="shadow p-1 text-danger-emphasis">${data.pricing? data.pricing[1].price : "Free Of Cost"} <br> ${data.pricing? data.pricing[1].plan : "/Pro"}</p>
+        <p class="shadow p-1 text-danger">${data.pricing? data.pricing[2].price : "Free of Cost "} <br> ${data.pricing? data.pricing[2].plan : "/Enterprise"}</p>
         </div>
         <div class="d-flex gap-3">
         <div>
@@ -138,7 +140,7 @@ const displayfecthModal = data => {
         </div>
         </div>
         </div>
-        <div class="position-relative">
+        <div class="position-relative mt-2">
         <div id="2${data.id}" class="position-absolute top-0 end-0 bg-danger">${data.accuracy.score * 100 ? data.accuracy.score * 100 :''}% accuracy</div>
         <img src="${data.image_link[0]}" class="card-img-top p-2" alt="...">
          
